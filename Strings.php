@@ -45,7 +45,6 @@ Class Strings
         $pattern = $this->getPattern($search);
         $replacement = $this->getReplacement();
         if ($this->firstEntryOnly) {
-            preg_match($pattern, $text, $matches);
             return preg_replace($pattern, $replacement, $text, 1);
         }
         return preg_replace($pattern, $replacement, $text);
