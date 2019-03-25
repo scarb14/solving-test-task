@@ -14,5 +14,6 @@ Class Glossary {
         'selectorAfter'         => '}}',
         'firstEntryOnly'        => true,
         'multibyteCharacterSet' => true, //uft-8
+        'delimiterCharacters'   => "[\s!.,?:;-{}()\[\]]",
     ];
 }

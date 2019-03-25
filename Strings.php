@@ -11,6 +11,8 @@ Class Strings
 
     private $multibyteCharacterSet = false;
 
+    private $delimiterCharacters = "[\s!.,?:;-{}()\[\]]";
+
     public function __construct($config = [])
     {
         if (isset($config['selectorBefore'])) {
@@ -25,7 +27,9 @@ Class Strings
         if (isset($config['multibyteCharacterSet'])) {
             $this->multibyteCharacterSet = $config['multibyteCharacterSet'];
         }
-
+        if (isset($config['delimiterCharacters'])) {
+            $this->delimiterCharacters = $config['delimiterCharacters'];
+        }
     }
 
     public function highlightKeywords(string $text, array $arrayOfWords): string
@@ -49,13 +53,12 @@ Class Strings
 
     private function getPattern($word): string
     {
-        $sybmolsStr = "[\s!.,?:;-]";
-        $sybmilsStrForward = "(?=" . $sybmolsStr . ")";
-        $sybmilsStrBackward = "(?<=" . $sybmolsStr . ")";
+        $сharactersForward = "(?=" . $this->delimiterCharacters . ")";
+        $сharactersBackward = "(?<=" . $this->delimiterCharacters . ")";
 
-        $beginStr = "(^" . $word . ")" . $sybmilsStrForward;
-        $endStr = $sybmolsStr . "(" . $word . "$)";
-        $middleStr = $sybmilsStrBackward . "(" . $word . ")" . $sybmilsStrForward;
+        $beginStr = "(^" . $word . ")" . $сharactersForward;
+        $endStr = $сharactersBackward . "(" . $word . "$)";
+        $middleStr = $сharactersBackward . "(" . $word . ")" . $сharactersForward;
 
         $pattern = $beginStr . "|" . $middleStr . "|" .  $endStr;
 
