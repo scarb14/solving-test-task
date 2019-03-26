@@ -6,11 +6,15 @@ SELECT
 	( 
 		( YEAR( CURRENT_DATE ) - YEAR( birthday )) - ( DATE_FORMAT( CURRENT_DATE, '%m%d' ) < DATE_FORMAT( birthday, '%m%d' )) 
 	) AS age,
-	DAYOFYEAR(birthday) as inter
+	TIMESTAMPDIFF(YEAR, birthday, CURRENT_DATE) as age2,
+	IF (
+		DAYOFYEAR(birthday) > DAYOFYEAR(CURRENT_DATE), 
+		TIMESTAMPDIFF(DAY, CURRENT_DATE, DATE_FORMAT( birthday , '2019-%m-%d')),
+		TIMESTAMPDIFF(DAY, CURRENT_DATE, DATE_FORMAT( birthday , '2020-%m-%d'))
+	) as `interval`
 FROM
 	users
 WHERE
-	DATE_FORMAT( birthday, '%m%d' ) > DATE_FORMAT( NOW(), '%m%d' )
-
-
-Запрос доделывается
+	DATE_FORMAT( birthday, '%m%d' ) <> DATE_FORMAT( NOW(), '%m%d' )
+ORDER BY `interval` ASC	
+LIMIT 5	
