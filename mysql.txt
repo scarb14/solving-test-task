@@ -1,0 +1,16 @@
+SELECT
+	user_id,
+	nickname,
+	DATE_FORMAT( birthday, '%d' ) as day_of_birth,
+	DATE_FORMAT( birthday, '%m' ) as month_of_birth,
+	( 
+		( YEAR( CURRENT_DATE ) - YEAR( birthday )) - ( DATE_FORMAT( CURRENT_DATE, '%m%d' ) < DATE_FORMAT( birthday, '%m%d' )) 
+	) AS age,
+	DAYOFYEAR(birthday) as inter
+FROM
+	users
+WHERE
+	DATE_FORMAT( birthday, '%m%d' ) > DATE_FORMAT( NOW(), '%m%d' )
+
+
+Запрос доделывается
